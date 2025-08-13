@@ -5,51 +5,26 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        IEnumerable<int> result = Enumerable.Empty<int>();
 
-        var employeeGroupByGender = from employee in Employee.GetEmployees()
-                                    group employee by new { employee.Gender , employee.Age} into gender
-                                    select new
-                                    {
-                                        Gender = gender.Key.Gender,
-                                        Age = gender.Key.Age,
-                                        GenderCount = gender.Count()
-                                    };
+        int[] number = { 0, 1, 2, 3, 4, 5, 6 };
 
-        //var employeeGroupByGender = Employee.GetEmployees().GroupBy(x => new { x.Gender, x.Age }).Select(x => new
-        //{
-        //    Gender = x.Key.Gender,
-        //    Age = x.Key.Age,
-        //    GenderCount = x.Count()
-        //});
+        result =  number.Take(3);
 
-        foreach (var employeeGroup in employeeGroupByGender)
+        foreach(var res in result)
         {
-            Console.WriteLine(employeeGroup.Gender + " " + employeeGroup.Age  + " "+ employeeGroup.GenderCount);
+            Console.WriteLine(res);
         }
 
-    }
+        Console.WriteLine();
 
-    public class Employee
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Gender { get; set; }
-        public int Age { get; set; }
-        public string DepartmentName { get; set; }
-        public double Salary { get; set; }
+        result = number.Skip(10);
 
-        public List<string> Skills { get; set; }
-
-        public static List<Employee> GetEmployees()
+        foreach (var res in result)
         {
-            return new List<Employee>()
-            {
-                new Employee(){ Id = 1, FirstName = "Vinodh", LastName = "Kumar", Age = 28, Salary = 100000, DepartmentName = "Client", Gender = "Male", Skills = new List<string>(){ "C#","SQL" } },
-                new Employee(){ Id = 2, FirstName = "Soumya", LastName = "Prakash", Age = 27, Salary = 120000, DepartmentName = "Scheduling", Gender = "Male", Skills = new List < string >(){ ".NET", "MVC"} },
-                new Employee(){ Id = 3, FirstName = "Vijay", LastName = "Kumar", Age = 28, Salary = 100000, DepartmentName = "Billing", Gender = "Male" , Skills = new List < string >() {"JAVA", "Python"} },
-                new Employee(){ Id = 4, FirstName = "Indumathi", LastName = "J", Age = 26, Salary = 80000, DepartmentName = "Clinician", Gender = "Female" , Skills = new List < string >() {"ADO .NET", "Angular"} }
-            };
+            Console.WriteLine(res);
         }
+
+
     }
 }
