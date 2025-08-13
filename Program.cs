@@ -4,31 +4,27 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        //var employees = from employee in Employee.GetEmployees()
-        //                select new
-        //                {
-        //                    Id = employee.Id,
-        //                    Skills = employee.Skills,
-        //                    FirstName = employee.FirstName + " " + employee.LastName   
-        //                };
+        //var skills = from employee in Employee.GetEmployees()
+        //             from skill in employee.Skills
+        //             select new
+        //             {
+        //                 FirstName = employee.FirstName,
+        //                 LastName = employee.LastName,
+        //                 skill = skill
+        //             };
 
-
-        var employees = Employee.GetEmployees().Select(employee => new
+        var skills = Employee.GetEmployees().SelectMany(emp => emp.Skills, (employee, skill) => new
         {
-            Id = employee.Id,
-            Skills = employee.Skills,
-            FirstName = employee.FirstName + " " + employee.LastName
-
+            FirstName = employee.FirstName,
+            LastName = employee.LastName,
+            skill = skill
         });
 
-        foreach (var employee in employees)
-        {
-            Console.WriteLine("Employee Name is {0}", employee.FirstName);
 
-            foreach (var skill in employee.Skills)
-            {
-                Console.WriteLine("* {0}", skill);
-            }
+        foreach (var skill in skills)
+        {
+
+            Console.WriteLine("{0} {1} {2}", skill.FirstName, skill.LastName, skill.skill);
         }
     }
 
