@@ -6,23 +6,30 @@ public class Program
     public static void Main(string[] args)
     {
 
-        var EmployeeDepartment = Employee.GetEmployees().Join(Department.GetDepartments(),
-            emp => emp.DepartmentId, dep => dep.DepartmentId, (emp, dep) => new
+        var EmployeeDepartment = Employee.GetEmployees().GroupJoin(Department.GetDepartments(), emp => emp.DepartmentId,
+
+                    d => d.DepartmentId, (emp, dep) => new
+                    {
+                        emp = emp,
+                        dep = dep
+                    }
+
+            ).SelectMany(z=> z.dep.DefaultIfEmpty(), (a,b) => new
             {
-
-                DepartmentName = dep.DepartmentName,
-                employee = emp
-
+                employee = a.emp,
+                DepartmentName = b == null ? "No Department" : b.DepartmentName
             });
 
-        //var EmployeeDepartment = from employee in Employee.GetEmployees() 
-        //                                    join department in Department.GetDepartments()
-        //                                        on employee.DepartmentId equals department.DepartmentId
-        //                                    select new
-        //                                    {
-        //                                        DepartmentName = department.DepartmentName,
-        //                                        employee = employee
-        //                                    };
+        //var EmployeeDepartment = from employee in Employee.GetEmployees()
+        //                         join department in Department.GetDepartments()
+        //                             on employee.DepartmentId equals department.DepartmentId into empgroup
+        //                         from emp in empgroup.DefaultIfEmpty() 
+        //                         select new
+        //                         {
+        //                             employee = employee,
+        //                             DepartmentName = emp == null? "No Department" :  emp.DepartmentName
+
+        //                         };
 
         foreach (var emp in EmployeeDepartment)
         {
