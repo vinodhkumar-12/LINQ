@@ -7,22 +7,24 @@ public class Program
     {
 
         var employeeGroupByGender = from employee in Employee.GetEmployees()
-                                    group employee by employee.Gender into gender
+                                    group employee by new { employee.Gender , employee.Age} into gender
                                     select new
                                     {
-                                        Gender = gender.Key,
+                                        Gender = gender.Key.Gender,
+                                        Age = gender.Key.Age,
                                         GenderCount = gender.Count()
                                     };
 
-       //var employeeGroupByGender = Employee.GetEmployees().GroupBy(x => x.Gender).Select(x => new
-       // {
-       //     Gender = x.Key,
-       //     GenderCount = x.Count()
-       // });
-         
-        foreach(var employeeGroup in employeeGroupByGender)
+        //var employeeGroupByGender = Employee.GetEmployees().GroupBy(x => new { x.Gender, x.Age }).Select(x => new
+        //{
+        //    Gender = x.Key.Gender,
+        //    Age = x.Key.Age,
+        //    GenderCount = x.Count()
+        //});
+
+        foreach (var employeeGroup in employeeGroupByGender)
         {
-            Console.WriteLine(employeeGroup.Gender + " " + employeeGroup.GenderCount);
+            Console.WriteLine(employeeGroup.Gender + " " + employeeGroup.Age  + " "+ employeeGroup.GenderCount);
         }
 
     }
