@@ -2,14 +2,16 @@
 {
     public static void Main(string[] args)
     {
-        var employees = from employee in Employee.GetEmployees()
-            select employee;
+        //var employees = from employee in Employee.GetEmployees()
+        //    select employee;
+
+        var employees = Employee.GetEmployees().Select(x => x);
 
         foreach (var employee in employees)
         {
             Console.WriteLine(employee.Id + " " + employee.FirstName + " " + employee.LastName);
         }
-            
+
     }
 
     public class Employee
