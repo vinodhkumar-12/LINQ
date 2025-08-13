@@ -4,28 +4,19 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        //var skills = from employee in Employee.GetEmployees()
-        //             from skill in employee.Skills
-        //             select new
-        //             {
-        //                 FirstName = employee.FirstName,
-        //                 LastName = employee.LastName,
-        //                 skill = skill
-        //             };
+        //var EmployeeDescOrderByName = from employee in Employee.GetEmployees()
+        //                            orderby employee.FirstName descending, employee.LastName descending 
+        //                          select employee;
 
-        var skills = Employee.GetEmployees().SelectMany(emp => emp.Skills, (employee, skill) => new
+
+        var EmployeeDescOrderByName = Employee.GetEmployees().OrderByDescending(x => x.FirstName).ThenByDescending(x => x.LastName);
+
+        foreach(var employee in EmployeeDescOrderByName)
         {
-            FirstName = employee.FirstName,
-            LastName = employee.LastName,
-            skill = skill
-        });
-
-
-        foreach (var skill in skills)
-        {
-
-            Console.WriteLine("{0} {1} {2}", skill.FirstName, skill.LastName, skill.skill);
+            Console.WriteLine(employee.FirstName + " " + employee.LastName);
         }
+
+
     }
 
     public class Employee
