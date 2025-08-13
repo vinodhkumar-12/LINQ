@@ -6,31 +6,27 @@ public class Program
     public static void Main(string[] args)
     {
 
-        var EmployeeGroupByDepartmentName = Department.GetDepartments().GroupJoin(Employee.GetEmployees(),
-                d => d.DepartmentId, emp => emp.DepartmentId, (d, emp) => new
-                {
-                    DepartmentName = d.DepartmentName,
-                    empGroup = emp
+        var EmployeeDepartment = Employee.GetEmployees().Join(Department.GetDepartments(),
+            emp => emp.DepartmentId, dep => dep.DepartmentId, (emp, dep) => new
+            {
 
-                });
+                DepartmentName = dep.DepartmentName,
+                employee = emp
 
-        //var EmployeeGroupByDepartmentName = from department in Department.GetDepartments()
-        //                                    join employee in Employee.GetEmployees()
-        //                                        on department.DepartmentId equals employee.DepartmentId into empGroup
+            });
+
+        //var EmployeeDepartment = from employee in Employee.GetEmployees() 
+        //                                    join department in Department.GetDepartments()
+        //                                        on employee.DepartmentId equals department.DepartmentId
         //                                    select new
         //                                    {
         //                                        DepartmentName = department.DepartmentName,
-        //                                        empGroup = empGroup
+        //                                        employee = employee
         //                                    };
 
-        foreach (var empGroup in EmployeeGroupByDepartmentName)
+        foreach (var emp in EmployeeDepartment)
         {
-            Console.WriteLine(empGroup.DepartmentName);
-            foreach (var emp in empGroup.empGroup)
-            {
-                Console.WriteLine(" * {0}", emp.FirstName + " " + emp.LastName);
-            }
-            Console.WriteLine();
+            Console.WriteLine(emp.DepartmentName + " " + emp.employee.FirstName + " " + emp.employee.LastName);
         }
 
     }
@@ -56,7 +52,8 @@ public class Employee
             new Employee(){ Id = 1, FirstName = "Vinodh", LastName = "Kumar", Age = 28, Salary = 100000, DepartmentId = 1, Gender = "Male", Skills = new List<string>(){ "C#","SQL" } },
             new Employee(){ Id = 2, FirstName = "Soumya", LastName = "Prakash", Age = 27, Salary = 120000, DepartmentId = 1, Gender = "Male", Skills = new List < string >(){ ".NET", "MVC"} },
             new Employee(){ Id = 3, FirstName = "Vijay", LastName = "Kumar", Age = 28, Salary = 100000, DepartmentId = 2, Gender = "Male" , Skills = new List < string >() {"JAVA", "Python"} },
-            new Employee(){ Id = 4, FirstName = "Indumathi", LastName = "J", Age = 26, Salary = 80000, DepartmentId = 1, Gender = "Female" , Skills = new List < string >() {"ADO .NET", "Angular"} }
+            new Employee(){ Id = 4, FirstName = "Indumathi", LastName = "J", Age = 26, Salary = 80000, DepartmentId = 1, Gender = "Female" , Skills = new List < string >() {"ADO .NET", "Angular"} },
+            new Employee(){ Id = 5, FirstName = "Santhosh", LastName = "Narayan", Age = 26, Salary = 80000, Gender = "Make" , Skills = new List < string >() {"ADO .NET", "Angular"} }
         };
     }
 }
